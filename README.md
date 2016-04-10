@@ -81,3 +81,8 @@ Where `length` in this context is the length of the sequence of data used for le
 * The BPTT for LSTM is a little bit complicated, and the implementation in this model is very straightforward and readible, although at the cost that it's not the most efficient way. The approach follows:
 ..1. wer
 ..2. wer
+1. Actual numbers don't matter, just that it's a number
+⋅⋅1. Ordered sub-list
+* hahaha
+** haha
+** hahaha
