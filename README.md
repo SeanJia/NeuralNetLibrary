@@ -42,9 +42,11 @@ Other features are listed below.
 #### Sample training performance
 When training on [MNIST](http://yann.lecun.com/exdb/mnist/), with zero mean and variance normalization as preprocessing of the data, this algorithm achieved a best testing accuracy as 98.6%, which is around the state-of-the-art level for fully connected neural nets.
 
-
-
 ## Long Short-term Memory (LSTM) 
 LSTM is a special structure of the recurrent neural network. The implementation here has the version with this topology. 
 ![structure of this LSTM](https://github.com/SeanJia/DeepLearningLibrary/blob/master/readme-images/2.png)
+
+#### Basic features
+* This LSTM is designed primarily for sequence to sequence learning, with same input and output size, e.g., language modeling. It can be used for other sorts of sequence involved learning after some minor modifications, though.
+* 
 
