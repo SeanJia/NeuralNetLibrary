@@ -9,7 +9,7 @@ This library utilizes codes for CUDA-supported Nvidia cards. CUDA Toolkits 7.x i
 ## Feedforward Neural Net
 ![what a feedforward neural net looks like](https://github.com/SeanJia/DeepLearningLibrary/blob/master/readme-images/1.png)
 #### Basic features
-* The feedforward neural network in this library is fully connected, supportive of mini-batch gradient-based learning, L2-norm regularization, and three different kinds of activation functions. 
+* The feedforward neural network in this library is designed for classification problems, and is fully connected, supportive of mini-batch gradient-based learning, L2-norm regularization, and three different kinds of activation functions. 
 
 * To create a neural net, use `nn = NerualNet(sizes=layers, act=activation, gpu_mod=False)`. 
 
@@ -21,4 +21,6 @@ This library utilizes codes for CUDA-supported Nvidia cards. CUDA Toolkits 7.x i
 
 Other features are listed below.
 
+#### Training and testing data
+Train via `nn.training(train_data, test_data, max_epoch=200, mini_batch_size=100, learning_rate=0.01, momentum=0.9)`, where `train_data` and `test_data` are considered as lists of two tuples. Each component in the list is of the form `(x, y)` where x is the input data as column vector (a 2d numpy array), and y is the binary column vector (also a 2d numpy array) to indicate which class the data x belongs to. Notice that in reality the algorithms require you to wrap the lists (train or test data) as numpy arrays. This can be easily acheived by `train_data = numpy.array(list_for_train_data)`.
 
