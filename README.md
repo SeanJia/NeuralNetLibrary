@@ -79,15 +79,15 @@ Where `length` in this context is the length of the sequence of data used for le
 #### Full BackProp Through Time
 * Instead of the traditional back propagation algorithm used in training feedforward neural nets, recurrent nerual net uses what is called back propagation throught time (BPTT). To fully understand BPTT for LSTM, first the basic understanding of BPTT for simple recurrent net is recommended. Click [here](http://www.wildml.com/2015/10/recurrent-neural-networks-tutorial-part-3-backpropagation-through-time-and-vanishing-gradients/) to introduce BPTT to you. 
 * The BPTT for LSTM is a little bit complicated, and that looking throughtout the Internet, there are almost no reference  that is easy to comprehend. The implementation in this model is derived myself with with efforts. It is very straightforward and readible, although at the cost that it's not the most efficient way. The approach starts from the last piece of data in the sequence:
-0. for each piece of the data in the sequence, do forward propagation and store relevant variables.
-1. compute the delta for the output layer, i.e., `delta = predictedValue - groundTruth`.   
-2. compute the derivative of the error w.r.t. the output h from the previous layer, via chain rule through the unit Yout (output gate) in the diagram. The derivative has variable name as `write_h`.
-3. compute the derivative of the error w.r.t. h from the previous layer, via chain rule through the unit Sc (memroy cell) in the diagram. This process involves three subroutines. The derivative has varaible name as `c_h`.
-4. compute the derivative of the error w.r.t. h from the previous layer, via chain rule through the output layer, i.e., through `delta`. The derivative has variable name as `delta_h`.
-5. compute the derivative of the error w.r.t h from the previous layer as `E_over_h = delta_h + write_h + c_h`.
-6. based on `E_over_h`, compute cumulative gradients for all weights and biases, from the end of the sequence to the current time domain, of the cumulative errors caused by pieces of data in the same range.
-7. update the cumulative derivative of the error w.r.t. the memory cell in the previous layer (this quantity is used in computing `c_h` for the next iteration); notice that this update is based on two ways that previous layer's memory cell influences error in later layers, specifically via self loop around the memory cell and via output h of the previous layer.
-8. update the cumulative derivative of the error w.r.t. the unit Yout (output gate) in the previous layer (this quantity is used as `write_h` in the next iteration).
-9. repeat step 1 to 8 until the first element in the sequence used for a BPTT.
+ 0. for each piece of the data in the sequence, do forward propagation and store relevant variables.
+ 1. compute the delta for the output layer, i.e., `delta = predictedValue - groundTruth`.   
+ 2. compute the derivative of the error w.r.t. the output h from the previous layer, via chain rule through the unit Yout (output gate) in the diagram. The derivative has variable name as `write_h`.
+ 3. compute the derivative of the error w.r.t. h from the previous layer, via chain rule through the unit Sc (memroy cell) in the diagram. This process involves three subroutines. The derivative has varaible name as `c_h`.
+ 4. compute the derivative of the error w.r.t. h from the previous layer, via chain rule through the output layer, i.e., through `delta`. The derivative has variable name as `delta_h`.
+ 5. compute the derivative of the error w.r.t h from the previous layer as `E_over_h = delta_h + write_h + c_h`.
+ 6. based on `E_over_h`, compute cumulative gradients for all weights and biases, from the end of the sequence to the current time domain, of the cumulative errors caused by pieces of data in the same range.
+ 7. update the cumulative derivative of the error w.r.t. the memory cell in the previous layer (this quantity is used in computing `c_h` for the next iteration); notice that this update is based on two ways that previous layer's memory cell influences error in later layers, specifically via self loop around the memory cell and via output h of the previous layer.
+ 8. update the cumulative derivative of the error w.r.t. the unit Yout (output gate) in the previous layer (this quantity is used as `write_h` in the next iteration).
+ 9. repeat step 1 to 8 until the first element in the sequence used for a BPTT.
 
 #### AdaGrad & gradient clipping
