@@ -88,6 +88,6 @@ Where `length` in this context is the length of the sequence of data used for le
  6. based on `E_over_h`, compute cumulative gradients for all weights and biases, from the end of the sequence to the current time domain, of the cumulative errors caused by pieces of data in the same range.
  7. update the cumulative derivative of the error w.r.t. the memory cell in the previous layer (this quantity is used in computing `c_h` for the next iteration); notice that this update is based on two ways that previous layer's memory cell influences error in later layers, specifically via self loop around the memory cell and via output h of the previous layer.
  8. update the cumulative derivative of the error w.r.t. the unit Yout (output gate) in the previous layer (this quantity is used as `write_h` in the next iteration).
- 9. repeat step **ii** to **ix** until the first element in the sequence used for a BPTT.
+ 9. repeat step **ii** to **ix** until it reaches the first element in the sequence used for a BPTT.
 
 #### AdaGrad & gradient clipping
