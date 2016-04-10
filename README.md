@@ -57,9 +57,9 @@ Other features are listed below.
 #### Training and testing data
 * As recurrent neural network usually takes training data itself as testing data, it's hard to tell whether this learning process is supervised or unsupervised. It uses the same data for training as well as for testing in this LSTM model. And the data is formatted simply as a list of column label vectors (numpy 2d arrays). These label vectors are similar to those in the feedforward neural net described above. For example, if training this LSTM model on English words, a few lines can set up the correct format:
 ```python
-file = open('magi.txt', 'r')
+file = open('sample_text_file.txt', 'r')
 str = file.read()
-vec = np.zeros((size, len(str)))
+vec = numpy.zeros((size, len(str)))
 data = []
 
 for i in range(len(str)):
