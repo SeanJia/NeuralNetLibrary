@@ -32,3 +32,5 @@ Other features are listed below.
 #### Xavier initialization
 * For layers with large number of weights, we want to maintain the activated output to be of similar scale. Xavier initialization of weights is a good approach, and is supported in this neural net by default. More mathematical background of this technique can be fount [here](http://andyljones.tumblr.com/post/110998971763/an-explanation-of-xavier-initialization).
 
+#### Storage of learned parameters
+Learned parameters will be stored into local file specified by the last parameter in calling `training(..., store_file)`. E.g., `store_file = "learnedStuff"` will create and store paramters into a local file called `learnedStuff.npy`.
