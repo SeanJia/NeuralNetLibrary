@@ -42,5 +42,9 @@ Other features are listed below.
 #### Sample training performance
 When training on [MNIST](http://yann.lecun.com/exdb/mnist/), with zero mean and variance normalization as preprocessing of the data, this algorithm achieved a best testing accuracy as 98.6%, which is around the state-of-the-art level for fully connected neural nets.
 
+
+
 ## Long Short-term Memory (LSTM) 
-LSTM is a special structure of the recurrent neural network. The implementation here is based on the version with the following topology.
+LSTM is a special structure of the recurrent neural network. The implementation here has the version with this topology. 
+![structure of this LSTM](https://github.com/SeanJia/DeepLearningLibrary/blob/master/readme-images/2.png)
+
