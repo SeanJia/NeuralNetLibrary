@@ -81,4 +81,5 @@ Where `length` in this context is the length of the sequence of data used for le
 * The BPTT for LSTM is a little bit complicated, and that looking throughtout the Internet, there are almost no reference  that is easy to comprehend. The implementation in this model is derived myself with with efforts. It is very straightforward and readible, although at the cost that it's not the most efficient way. The approach starts from the last piece of data in the sequence:
 0. for each piece of the data in the sequence, do forward propagation and store relevant variables.
 1. compute the delta for the output layer, i.e., `delta = predictedValue - groundTruth`   
-2. compute the derivative of the error w.r.t. the output h from the previous layer, via chain rule through write
+2. compute the derivative of the error w.r.t. the output h from the previous layer, via chain rule through the unit Yout in the diagram. The derivative has variable name as `write_h`.
+3. compute the derivative of the error w.r.t. the output h from the previous layer, via chain rule through the unit
