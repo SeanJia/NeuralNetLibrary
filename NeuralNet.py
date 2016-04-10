@@ -67,7 +67,7 @@ class NeuralNet:
         a = Softmax(np.dot(self.weights[-1], a) + self.biases[-1])
         return a
 
-    def training(self, train_data, test_data, max_epoch=100, mini_batch_size=30, learning_rate=0.1,
+    def train(self, train_data, test_data, max_epoch=100, mini_batch_size=30, learning_rate=0.1,
                  momentum=0, reg=0, num_comp_per_thread=None, num_comp_in_batch=None, store_file=None):
         """the training function which use mini-batch stochastic gradient descent to minimize the cost"""
         num_samples = len(train_data)
