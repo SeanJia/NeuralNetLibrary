@@ -78,9 +78,7 @@ Where `length` in this context is the length of the sequence of data used for le
 
 #### Full BackProp Through Time
 * Instead of the traditional back propagation algorithm used in training feedforward neural nets, recurrent nerual net uses what is called back propagation throught time (BPTT). To fully understand BPTT for LSTM, first the basic understanding of BPTT for simple recurrent net is recommended. Click [here](http://www.wildml.com/2015/10/recurrent-neural-networks-tutorial-part-3-backpropagation-through-time-and-vanishing-gradients/) to introduce BPTT to you. 
-* The BPTT for LSTM is a little bit complicated, and the implementation in this model is very straightforward and readible, although at the cost that it's not the most efficient way. The approach follows:
-
-
-1. what is this?
-1. 1. cool
-1. 2. wow
+* The BPTT for LSTM is a little bit complicated, and that looking throughtout the Internet, there are almost no reference  that is easy to comprehend. The implementation in this model is derived myself with with efforts. It is very straightforward and readible, although at the cost that it's not the most efficient way. The approach starts from the last piece of data in the sequence:
+0. for each piece of the data in the sequence, do forward propagation and store relevant variables.
+1. compute the delta for the output layer, i.e., `delta = predictedValue - groundTruth`   
+2. compute the derivative of the error w.r.t. the output h from the previous layer, via chain rule through write
