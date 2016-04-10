@@ -18,7 +18,7 @@ This library utilizes codes for CUDA-supported Nvidia cards. CUDA Toolkits 7.x i
 Other features are listed below.
 
 #### Training and testing data
-* Use `nn.training(train_data, test_data, max_epoch=200, mini_batch_size=100, learning_rate=0.01, momentum=0.9)` for training, where `train_data` and `test_data` are considered as lists of two tuples. Each component in the list is of the form `(x, y)` where x is the input data as column vector (a 2d numpy array), and y is the label, a binary column vector (also 2d numpy array) to indicate which class the data x belongs to. 
+* Use `nn.train(train_data, test_data, max_epoch=200, mini_batch_size=100, learning_rate=0.01, momentum=0.9)` for training, where `train_data` and `test_data` are considered as lists of two tuples. Each component in the list is of the form `(x, y)` where x is the input data as column vector (a 2d numpy array), and y is the label, a binary column vector (also 2d numpy array) to indicate which class the data x belongs to. 
 * Notice that in reality the algorithms require you to wrap the lists (train or test data) as numpy arrays. This can be easily acheived by something similar to `train_data = numpy.array(list_for_train_data)`.
 * Normally training data has some preprocessing, such as make the mean to be zero and normalize the variance of each dimension.
 * This neural net provides with a built-in function for creating a binary label vector representing class information. You can call by `classification_vector(num_represent_class_for_this_data, num_of_total_classes)`.
@@ -55,7 +55,7 @@ LSTM is a special structure of the recurrent neural network. The implementation 
 Other features are listed below.
 
 #### Training and testing data
-* As recurrent neural network usually takes training data itself as testing data, it's hard to tell whether this learning process is supervised or unsupervised. It uses the same data for training as well as for testing in this LSTM model. And the data is formatted simply as a list of column label vectors (numpy 2d arrays). These label vectors are similar to those in the feedforward neural net described above. For example, if training this LSTM model on English words, a few lines can set up the correct format:
+* As recurrent neural network usually takes training data itself as testing data, it's hard to tell whether this learning process is supervised or unsupervised. It uses the same data for training as well as for testing in this LSTM model. And the data is formatted simply as a list of column label vectors (numpy 2d arrays). These label vectors are similar to those in the feedforward neural net described above. For example, if you train this LSTM model on English words, a few lines can set up the correct input data format:
 ```python
 file = open('sample_text_file.txt', 'r')
 str = file.read()
@@ -67,4 +67,10 @@ for i in range(len(str)):
     vec[idx, [i]] = 1
     data.append(vec[:, [i]])
 ```
-
+* Consequently, for the data format above, assumingly we are training a langauge model, the training process will at each time take a piece of data in the sequence, trying to learn how to predict the next piece of data given the history and current state, with next piece of data in the same sequence as the ground truth.
+* It provides with the evaluation function for sampling random data from the learned LSTM, and it has three parameters, e.g., `evaluate(test_data, temperature, length)`, where `test_data` in our settings is just one piece of training data (one binary numpy 2d array), `temprature` is for Softmax as mentioned above, and `length` is for the length of the sequential data you intend to generate in the sampling process.
+* Overall start training using the following:
+```python
+lstm.train(train_and_test_data, mini_batch_size=4, learning_rate=0.01, temperature=2, length=10, show_res_every=100)
+```
+Where `length` in this context is the length of the sequence of data used for learning dependency, which will be further explained in the "Full BackProp Through Time" section. And `show_res_every` is for how often the algorithm does a sampling process from the model.
