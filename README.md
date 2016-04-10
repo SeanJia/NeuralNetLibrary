@@ -12,7 +12,7 @@ This library utilizes codes for CUDA-supported Nvidia cards. CUDA Toolkits 7.x i
 * The feedforward neural network in this library is designed for classification problems, and is fully connected, supportive of mini-batch stochastic gradient descent, L2-norm regularization, and three different kinds of activation functions. The output layer use Softmax as the activation function for multi-class classification.
 * To create a neural net, use `nn = NerualNet(sizes=layers, act=activation, gpu_mod=False)`. 
 * The layers here is a list of integers for the topology of the network. For instance, the network in the image above would have `layers = [3, 10, 10, 3]`. 
-* The activation is for the nonlinearity in the network. With value of 0, 1 and 2 representing Sigmoid, funny Tanh, and recified linear (ReLU), where funny tanh is a modified version of tanh function described in Yann LeCun's [paper](http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf). By default it uses Sigmoid for activation function.
+* The `activation` is for the nonlinearity in the network. With value of 0, 1 and 2 representing Sigmoid, funny Tanh, and recified linear (ReLU), where funny tanh is a modified version of tanh function described in Yann LeCun's [paper](http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf). By default it uses Sigmoid for activation function.
 * Notice that for ReLU to be used in fully-connected neural nets, heuristicaly large mini-batch size is recommended to avoid extremely large terms in forward propagation, which might cause overflow for the exponential calculation in the output layer.
 
 Other features are listed below.
@@ -43,10 +43,12 @@ Other features are listed below.
 When training on [MNIST](http://yann.lecun.com/exdb/mnist/), with zero mean and variance normalization as preprocessing of the data, this algorithm achieved a best testing accuracy as 98.6%, which is around the state-of-the-art level for fully connected neural nets.
 
 ## Long Short-term Memory (LSTM) 
-LSTM is a special structure of the recurrent neural network. The implementation here has the version with this topology. 
+LSTM is a special structure of the recurrent neural network. The implementation here has the version with this topology, with another output gate to map 
 ![structure of this LSTM](https://github.com/SeanJia/DeepLearningLibrary/blob/master/readme-images/2.png)
 
 #### Basic features
 * This LSTM is designed primarily for sequence to sequence learning, with same input and output size, e.g., language modeling. It can be used for other sorts of sequence involved learning after some minor modifications, though.
-* 
+* To create a LSTM, use `lstm = RecurrentNet.LSTM(size, hiddenSize)`, where `size` is the input size (be default, output size as well), and the `hiddenSize` is the size of hidden layer, which is also, of course, the size of write and read gate. 
+* It uses temperature for its output gate, 
+* It also uses mini-batch stochastic gradient descent.
 
