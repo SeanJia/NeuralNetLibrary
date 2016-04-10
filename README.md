@@ -10,3 +10,5 @@ This library utilizes codes for CUDA-supported Nvidia cards. CUDA Toolkits 7.x i
 ![what a feedforward neural net looks like](https://github.com/SeanJia/DeepLearningLibrary/blob/master/readme-images/1.png)
 #### Basic features
 The feedforward neural network in this library is fully connected, supportive of mini-batch gradient-based learning, L2-norm regularization, and three different kinds of activation functions. 
+To create a neural net, use `nn = NerualNet(sizes=layers, act=activation, gpu_mod=False)`. The activation here is a list of integers for the topology of the network. 
+For instance, the network in the image above would have `activation = [3, 10, 10, 3]`.
