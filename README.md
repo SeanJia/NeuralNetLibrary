@@ -22,5 +22,6 @@ This library utilizes codes for CUDA-supported Nvidia cards. CUDA Toolkits 7.x i
 Other features are listed below.
 
 #### Training and testing data
-Train via `nn.training(train_data, test_data, max_epoch=200, mini_batch_size=100, learning_rate=0.01, momentum=0.9)`, where `train_data` and `test_data` are considered as lists of two tuples. Each component in the list is of the form `(x, y)` where x is the input data as column vector (a 2d numpy array), and y is the binary column vector (also a 2d numpy array) to indicate which class the data x belongs to. Notice that in reality the algorithms require you to wrap the lists (train or test data) as numpy arrays. This can be easily acheived by `train_data = numpy.array(list_for_train_data)`.
+* Use `nn.training(train_data, test_data, max_epoch=200, mini_batch_size=100, learning_rate=0.01, momentum=0.9)` for training, where `train_data` and `test_data` are considered as lists of two tuples. Each component in the list is of the form `(x, y)` where x is the input data as column vector (a 2d numpy array), and y is the binary column vector (also a 2d numpy array) to indicate which class the data x belongs to. 
+* Notice that in reality the algorithms require you to wrap the lists (train or test data) as numpy arrays. This can be easily acheived by `train_data = numpy.array(list_for_train_data)`.
 
