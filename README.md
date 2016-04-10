@@ -71,12 +71,13 @@ for i in range(len(str)):
 * It provides with the evaluation function for sampling random data from the learned LSTM, and it has three parameters, e.g., `evaluate(test_data, temperature, length)`, where `test_data` in our settings is just one piece of training data (one binary numpy 2d array), `temprature` is for Softmax as mentioned above, and `length` is for the length of the sequential data you intend to generate in the sampling process.
 * Overall start the training process using the following:
 ```python
-lstm.train(train_and_test_data, mini_batch_size=4, learning_rate=0.01, temperature=2, length=10, show_res_every=100)
+lstm.train(train_and_test_data, mini_batch_size=4, learning_rate=0.01, 
+            temperature=2, length=10, show_res_every=100)
 ```
 Where `length` in this context is the length of the sequence of data used for learning dependency, which will be further explained in the next section. And `show_res_every` is for how often the algorithm does a sampling process from the model.
 
 #### Full BackProp Through Time
 * Instead of the traditional back propagation algorithm used in training feedforward neural nets, recurrent nerual net uses what is called back propagation throught time (BPTT). To fully understand BPTT for LSTM, first the basic understanding of BPTT for simple recurrent net is recommended. Click [here](http://www.wildml.com/2015/10/recurrent-neural-networks-tutorial-part-3-backpropagation-through-time-and-vanishing-gradients/) to introduce BPTT to you. 
 * The BPTT for LSTM is a little bit complicated, and the implementation in this model is very straightforward and readible, although at the cost that it's not the most efficient way. The approach follows:
-* 1. wer
-* 2. wer
+..1. wer
+..2. wer
