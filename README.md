@@ -43,12 +43,28 @@ Other features are listed below.
 When training on [MNIST](http://yann.lecun.com/exdb/mnist/), with zero mean and variance normalization as preprocessing of the data, this algorithm achieved a best testing accuracy as 98.6%, which is around the state-of-the-art level for fully connected neural nets.
 
 ## Long Short-term Memory (LSTM) 
-LSTM is a special structure of the recurrent neural network. The implementation here has the version with this topology, with another output gate to map 
+LSTM is a special structure of the recurrent neural network. The implementation here has the version with this topology, with an extra output layer wrapped outside the output gate in order to map the y in the diagram into a output data with given size (which is normally used for next data in the sequence). 
 ![structure of this LSTM](https://github.com/SeanJia/DeepLearningLibrary/blob/master/readme-images/2.png)
 
 #### Basic features
 * This LSTM is designed primarily for sequence to sequence learning, with same input and output size, e.g., language modeling. It can be used for other sorts of sequence involved learning after some minor modifications, though.
 * To create a LSTM, use `lstm = RecurrentNet.LSTM(size, hiddenSize)`, where `size` is the input size (be default, output size as well), and the `hiddenSize` is the size of hidden layer, which is also, of course, the size of write and read gate. 
-* It uses temperature for its output gate, 
+* It uses Softmax function with temperature for its output layer (not the output gate in the diagram). 
 * It also uses mini-batch stochastic gradient descent.
+
+Other features are listed below.
+
+#### Training and testing data
+* As recurrent neural network usually takes training data itself as testing data, it's hard to tell whether this learning process is supervised or unsupervised. It uses the same data for training as well as for testing in this LSTM model. And the data is formatted simply as a list of column label vectors (numpy 2d arrays). These label vectors are similar to those in the feedforward neural net described above. For example, if training this LSTM model on English words, a few lines can set up the correct format:
+```python
+file = open('magi.txt', 'r')
+str = file.read()
+vec = np.zeros((size, len(str)))
+data = []
+
+for i in range(len(str)):
+    idx = ord(str[i])
+    vec[idx, [i]] = 1
+    data.append(vec[:, [i]])
+```
 
