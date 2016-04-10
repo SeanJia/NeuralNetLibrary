@@ -1,7 +1,7 @@
 # Deep Learning Library
 
 ## Overview
-This deep learning library currently contains two kinds of tools that are usually used in the field of machine learning; specifically, they are fully-connected feedforward neural network and long short-term memory. The object-oriented implementation is designed in a way that it makes use of the parallel computing power of GPUs. Special configurations are needed, though.
+This deep learning library is built from scratch (only numpy is used in the training processs), and it currently contains two kinds of tools that are usually used in the field of machine learning, specifically fully-connected feedforward neural network and long short-term memory. The object-oriented implementation is designed in a way that it makes use of the parallel computing power of GPUs. Special configurations are needed for it, though.
 
 ## GPU mode prerequisite
 This library utilizes codes for CUDA-supported Nvidia cards. CUDA Toolkits 7.x is required. For instance, follow the steps [here](http://www.r-tutor.com/gpu-computing/cuda-installation/cuda7.5-ubuntu) if your have Ubuntu 14.04. Furthermore, PyCUDA should be installed as is used in this library for the python wrapper for cuda codes. Similarly for Ubuntu 14.04, click [here](https://wiki.tiker.net/PyCuda/Installation/Linux/Ubuntu) for installation process. 
@@ -9,7 +9,7 @@ This library utilizes codes for CUDA-supported Nvidia cards. CUDA Toolkits 7.x i
 ## Feedforward Neural Net
 ![what a feedforward neural net looks like](https://github.com/SeanJia/DeepLearningLibrary/blob/master/readme-images/1.png)
 #### Basic features
-* The feedforward neural network in this library is designed for classification problems, and is fully connected, supportive of mini-batch stochastic gradient descent, L2-norm regularization, and three different kinds of activation functions. The output layer use Softmax as the activation function for multi-class classification.
+* The feedforward neural network in this library is designed for classification problems, and is fully connected, supportive of mini-batch stochastic gradient descent, L2-norm regularization, and three different kinds of activation functions. The output layer use Softmax as the activation function for multi-class classification and the error used here is cross-entropy error.
 * To create a neural net, use `nn = NerualNet(sizes=layers, act=activation, gpu_mod=False)`. 
 * The layers here is a list of integers for the topology of the network. For instance, the network in the image above would have `layers = [3, 10, 10, 3]`. 
 * The `activation` is for the nonlinearity in the network. With value of 0, 1 and 2 representing Sigmoid, funny Tanh, and recified linear (ReLU), where funny tanh is a modified version of tanh function described in Yann LeCun's [paper](http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf). By default it uses Sigmoid for activation function.
@@ -49,7 +49,7 @@ LSTM is a special structure of the recurrent neural network. The implementation 
 #### Basic features
 * This LSTM is designed primarily for sequence to sequence learning, with same input and output size, e.g., language modeling. It can be used for other sorts of sequence involved learning after some minor modifications, though.
 * To create a LSTM, use `lstm = RecurrentNet.LSTM(size, hiddenSize)`, where `size` is the input size (be default, output size as well), and the `hiddenSize` is the size of hidden layer, which is also, of course, the size of write and read gate. 
-* It uses Softmax function with temperature for its output layer (not the output gate in the diagram). 
+* It uses Softmax function with temperature for its output layer (not the output gate in the diagram) and, similar to the feedforward neural net, it uses cross-entropy error. 
 * It also uses mini-batch stochastic gradient descent.
 
 Other features are listed below.
@@ -69,8 +69,14 @@ for i in range(len(str)):
 ```
 * Consequently, for the data format above, assumingly we are training a langauge model, the training process will at each time take a piece of data in the sequence, trying to learn how to predict the next piece of data given the history and current state, with next piece of data in the same sequence as the ground truth.
 * It provides with the evaluation function for sampling random data from the learned LSTM, and it has three parameters, e.g., `evaluate(test_data, temperature, length)`, where `test_data` in our settings is just one piece of training data (one binary numpy 2d array), `temprature` is for Softmax as mentioned above, and `length` is for the length of the sequential data you intend to generate in the sampling process.
-* Overall start training using the following:
+* Overall start the training process using the following:
 ```python
 lstm.train(train_and_test_data, mini_batch_size=4, learning_rate=0.01, temperature=2, length=10, show_res_every=100)
 ```
-Where `length` in this context is the length of the sequence of data used for learning dependency, which will be further explained in the "Full BackProp Through Time" section. And `show_res_every` is for how often the algorithm does a sampling process from the model.
+Where `length` in this context is the length of the sequence of data used for learning dependency, which will be further explained in the next section. And `show_res_every` is for how often the algorithm does a sampling process from the model.
+
+#### Full BackProp Through Time
+* Instead of the traditional back propagation algorithm used in training feedforward neural nets, recurrent nerual net uses what is called back propagation throught time (BPTT). To fully understand BPTT for LSTM, first the basic understanding of BPTT for simple recurrent net is recommended. Click [here](http://www.wildml.com/2015/10/recurrent-neural-networks-tutorial-part-3-backpropagation-through-time-and-vanishing-gradients/) to introduce BPTT to you. 
+* The BPTT for LSTM is a little bit complicated, and the implementation in this model is very straightforward and readible, although at the cost that it's not the most efficient way. The approach follows:
+* 1. wer
+* 2. wer
