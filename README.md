@@ -115,4 +115,4 @@ y company. Grand as the watch was, he sometimes looked at it on the sly on accou
 ```
 
 ## About the author
-Hi, my name is Zhiwei Jia, currently an undergraduate student double majoring in Computer Science and Applied Math @ UC San Diego. Welcome to visit my [webiste](http://zhiweijia.net) for more about me and my projects.
+Hi, my name is Zhiwei Jia, currently an undergraduate student double majoring in Computer Science and Applied Math @ UC San Diego. Welcome to my [website](http://zhiweijia.net) for more about me and my projects.
