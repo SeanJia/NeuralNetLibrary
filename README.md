@@ -95,7 +95,7 @@ Where `length` in this context is the length of the sequence of data used for le
 * This model supports [AdaGrad](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#AdaGrad) for boosting up stochastic gradient descent. And gradient clipping is used to avoid exploding gradient problem when learning long time dependancy.
 
 #### Showing testing result
-* As mentioned before, the training process will periodically sample random data from the model. Besides `show_res_every` in `lstm.train(...)` for controlling how to show the testing result. `num_shown_res=400` is the real parameter that is passed to `evaluate(...)` for the length of random samples generated from the model.  
+* As mentioned before, the training process will periodically sample random data from the model. Besides `show_res_every` in `lstm.train(...)` for controlling how often to show the testing result. `num_shown_res=400` is the real parameter that is passed to `evaluate(...)` for the length of random samples generated from the model.  
 * At each time that it does a sampling process, error (or loss) will be shown. This model provides two kinds of loss, smooth loss (cumulative) and loss belonging to the current mini-batch. 
 
 #### Storage of learned paramters
