@@ -100,8 +100,8 @@ Where `length` in this context is the length of the sequence of data used for le
 
 #### Storage of learned paramters
 * Learned weights, biases and memory cells will be saved automatically during training, and the parameter `store_every=100` in `lstm.train(...)` is responsible for how often they are stored. `store_file=name` is used for the name of the local storage file, e.g., `name = "lstmparam"` will store variables into two files, namely "lstmparam1.npy" and "lstmparam2.npy".
-* For loading the model, use `load_from_file(load_file, gpu_mode=True, num_thread_per_block=256)`. This will load models from two files named "load_file1.npy" and "load_file2.npy". 
-* The parameter`gpu_mode=True` is to specify whether the loaded model utilize GPU mode. Different from storage in feedforward neural net, the implementation here requires users to specify the mode explicity. And as a result, a stored model with GPU mode can be loaded into a GPU mode model, and vice versa.
+* For loading the model, use `load_from_file("load_file_name, gpu_mode=True, num_thread_per_block=256)`. This will load models from two files named "load_file_name1.npy" and "load_file_name2.npy". 
+* The parameter`gpu_mode=True` is to specify whether the loaded model utilizes GPU mode. Different from storage in feedforward neural net, the implementation here requires users to specify the mode explicity. And as a result, a stored model with GPU mode can be loaded into a non-GPU mode model, and vice versa.
 * If you choose to load the model in GPU mode, then `num_thread_per_block` is required.
 
 #### GPU mode
