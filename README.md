@@ -47,8 +47,8 @@ LSTM is a special structure of the recurrent neural network. The implementation 
 ![structure of this LSTM](https://github.com/SeanJia/DeepLearningLibrary/blob/master/readme-images/2.png)
 
 #### Basic features
-* This LSTM is designed primarily for sequence to sequence learning, with same input and output size, e.g., language modeling. It can be used for other sorts of sequence involved learning after some minor modifications, though.
-* To create a LSTM, use `lstm = RecurrentNet.LSTM(size, hiddenSize)`, where `size` is the input size (be default, output size as well), and the `hiddenSize` is the size of hidden layer, which is also, of course, the size of write and read gate. 
+* This LSTM is designed primarily for sequence to sequence learning, with same input and output size, e.g., language modeling. It can be used for other sorts of sequence involved learning after some minor modifications.
+* To create a LSTM, use `lstm = RecurrentNet.LSTM(size, hiddenSize)`, where `size` is the input size (be default, output size as well), and the `hiddenSize` is the size of hidden layer, which is also the size of write and read gate. 
 * It uses Softmax function with temperature for its output layer (not the output gate in the diagram) and, similar to the feedforward neural net, it uses cross-entropy error. 
 * It also uses mini-batch stochastic gradient descent.
 
