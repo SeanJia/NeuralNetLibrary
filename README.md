@@ -19,9 +19,10 @@ Other features are listed below.
 
 #### Training and testing data
 * Use `nn.train(train_data, test_data, max_epoch=200, mini_batch_size=100, learning_rate=0.01, momentum=0.9)` for training, where `train_data` and `test_data` are considered as lists of two tuples. Each component in the list is of the form `(x, y)` where x is the input data as column vector (a 2d numpy array), and y is the label, a binary column vector (also 2d numpy array) to indicate which class the data x belongs to. 
-* Notice that in reality the algorithms require you to wrap the lists (train or test data) as numpy arrays. This can be easily acheived by something similar to `train_data = numpy.array(list_for_train_data)`.
+* Notice that in reality the algorithms **require** you to wrap the lists (train or test data) as numpy arrays. This can be easily acheived by something similar to `train_data = numpy.array(list_for_train_data)`.
 * Normally training data has some preprocessing, such as make the mean to be zero and normalize the variance of each dimension.
 * This neural net provides with a built-in function for creating a binary label vector representing class information. You can call by `classification_vector(num_represent_class_for_this_data, num_of_total_classes)`.
+* At the end of each epoch, the training set accuracy and the testing set accuracy are shown. 
 
 #### Nesterov's momentum
 * This neural net supports Nesterov's momentum, which is a technique for boosting up the convergence of stochastic gradient descent. Detail can be found [here](https://blogs.princeton.edu/imabandit/2013/04/01/acceleratedgradientdescent/).
@@ -77,17 +78,30 @@ lstm.train(train_and_test_data, mini_batch_size=4, learning_rate=0.01,
 Where `length` in this context is the length of the sequence of data used for learning dependency, which will be further explained in the next section. And `show_res_every` is for how often the algorithm does a sampling process from the model.
 
 #### Full BackProp Through Time
-* Instead of the traditional back propagation algorithm used in training feedforward neural nets, recurrent nerual net uses what is called back propagation throught time (BPTT). To fully understand BPTT for LSTM, first the basic understanding of BPTT for simple recurrent net is recommended. Click [here](http://www.wildml.com/2015/10/recurrent-neural-networks-tutorial-part-3-backpropagation-through-time-and-vanishing-gradients/) to introduce BPTT to you. 
-* The BPTT for LSTM is a little bit complicated, and that looking throughtout the Internet, there are almost no reference  that is easy to comprehend. The implementation in this model is derived myself with with efforts. It is very straightforward and readible, although at the cost that it's not the most efficient way. The approach starts from the last piece of data in the sequence:
+* Instead of the traditional back propagation algorithm used in training feedforward neural nets, recurrent nerual net uses what is called back propagation throught time (BPTT). Before getting to BPTT for this LSTM, obtaining a basic understanding of BPTT for simple recurrent net is recommended. Click [here](http://www.wildml.com/2015/10/recurrent-neural-networks-tutorial-part-3-backpropagation-through-time-and-vanishing-gradients/) to introduce BPTT to you. 
+* The BPTT for LSTM is a little bit more complicated. When looking throughtout the Internet, there is almost no reference  that is easy to comprehend. However, the implementation of BPTT in this model is derived purely by myself with a lot efforts. It is very straightforward and readible, though at the cost that it's perhaps not the most efficient way. The approach starts from handling the last piece of data in the sequence used in the BPTT process:
  0. for each piece of the data in the sequence, do forward propagation and store relevant variables.
  1. compute the delta for the output layer, i.e., `delta = predictedValue - groundTruth`.   
- 2. compute the derivative of the error w.r.t. the output h from the previous layer, via chain rule through the unit Yout (output gate) in the diagram. The derivative has variable name as `write_h`.
- 3. compute the derivative of the error w.r.t. h from the previous layer, via chain rule through the unit Sc (memroy cell) in the diagram. This process involves three subroutines. The derivative has varaible name as `c_h`.
- 4. compute the derivative of the error w.r.t. h from the previous layer, via chain rule through the output layer, i.e., through `delta`. The derivative has variable name as `delta_h`.
- 5. compute the derivative of the error w.r.t h from the previous layer as `E_over_h = delta_h + write_h + c_h`.
- 6. based on `E_over_h`, compute cumulative gradients for all weights and biases, from the end of the sequence to the current time domain, of the cumulative errors caused by pieces of data in the same range.
+ 2. compute the derivative of the error w.r.t. the output h from the previous layer, via chain rule through the unit Yout (output gate) in the diagram. The derivative has variable name `write_h`.
+ 3. compute the derivative of the error w.r.t. h from the previous layer, via chain rule through the unit Sc (memroy cell) in the diagram. This process involves three subroutines. The derivative has varaible name `c_h`.
+ 4. compute the derivative of the error w.r.t. h from the previous layer, via chain rule through the output layer, i.e., through `delta`. The derivative has variable name `delta_h`.
+ 5. compute the derivative of the error w.r.t. h from the previous layer, i.e., `E_over_h = delta_h + write_h + c_h`.
+ 6. based on `E_over_h`, compute cumulative gradients for all weights and biases, from the end of the sequence to the current time domain, where only errors terms caused by pieces of data in the same time range are involved.
  7. update the cumulative derivative of the error w.r.t. the memory cell in the previous layer (this quantity is used in computing `c_h` for the next iteration); notice that this update is based on two ways that previous layer's memory cell influences error in later layers, specifically via self loop around the memory cell and via output h of the previous layer.
  8. update the cumulative derivative of the error w.r.t. the unit Yout (output gate) in the previous layer (this quantity is used as `write_h` in the next iteration).
- 9. repeat step **ii** to **ix** until it reaches the first element in the sequence used for a BPTT.
+ 9. repeat step **ii** to **ix** until it reaches the first element in the sequence used for a BPTT process.
 
 #### AdaGrad & gradient clipping
+* This model supports [AdaGrad](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#AdaGrad) for boosting up stochastic gradient descent. And gradient clipping is used to avoid exploding gradient problem when learning long time dependancy.
+
+#### Showing testing result
+* As mentioned before, the training process will periodically sample random data from the model. Besides `show_res_every` in `lstm.train(...)` for controlling how to show the testing result. `num_shown_res=400` is the real parameter that is passed to `evaluate(...)` for the length of random samples generated from the model.  
+* At each time that it does a sampling process, error (or loss) will be shown. This model provides two kinds of loss, smooth loss (cumulative) and loss belonging to the current mini-batch. 
+
+#### Storage of learned paramters
+* Learned weights, biases and memory cells will be saved automatically during training, and the parameter `store_every=100` in `lstm.train(...)` is responsible for how often they are stored. `store_file=name` is used for the name of the local storage file, e.g., `name = "lstmparam"` will store variables into two files, namely "lstmparam1.npy" and "lstmparam2.npy".
+* For loading the model, use `load_from_file(load_file, gpu_mode=True, num_thread_per_block=256)`. This will load models from two files named "load_file1.npy" and "load_file2.npy". 
+* The parameter`gpu_mode=True` is to specify whether the loaded model utilize GPU mode. Different from storage in feedforward neural net, the implementation here requires users to specify the mode explicity. And as a result, a stored model with GPU mode can be loaded into a GPU mode model, and vice versa.
+* If you choose to load the model in GPU mode, then `num_thread_per_block` is required.
+
+#### GPU mode
