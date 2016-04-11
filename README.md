@@ -106,10 +106,13 @@ Where `length` in this context is the length of the sequence of data used for le
 
 #### GPU mode
 * If GPU mode is chosen, set `gpu_mode` as `True` and specify `num_thread_per_block`. As explained before in gpu section of feedforward nerual net, usually this number would be 128, 256, or 512.
-* For the recurrent nature of LSTM, this implementation for GPU mode is not very efficient regarding that in the non-GPU mode. It's otherwise optimized for relatively small input size and large hidden size. For instance, you might find out that only for hidden size greater than 1000 can the GPU mode outperform non-GPU mode.
+* For the recurrent nature of LSTM, this implementation for GPU mode is **not** very efficient regarding that in the non-GPU mode. However, It's optimized for relatively small input size and large hidden size. For instance, you might find out that only for hidden size greater than 1000 can the GPU mode outperform non-GPU mode.
 
 #### Sample training result
 Given a very short paragraphs in English (I select O. Henry's **The Gift of the Magi**) and train a lstm on it, one generated random text sample is:
 ```
 y company. Grand as the watch was, he sometimes looked at it on the sly on account of the old leather strap that he used in the wasce. "Give it to me quikd," said Madame. Oh, and the next two hours tripped by on rosy wings. 
 ```
+
+## About the author
+Hi, my name is Zhiwei Jia, currently an undergraduate student double majoring in Computer Science and Applied Math @ UC San Diego. Welcome to visit my [webiste](http://zhiweijia.net) for more about me and my projects.
