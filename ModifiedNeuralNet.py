@@ -11,6 +11,7 @@ from theano.ifelse import ifelse
 
 class NN:
     def __init__(self, shape, num_modifier):
+        self.max_accuracy = 0.0
         self.shape = shape
         self.num_layers = len(shape)
         self.num_modifier = num_modifier
@@ -125,6 +126,9 @@ class NN:
             test_correctedness = 100.0 * correctness(test_x, test_y) / test_x.shape[0]
             print "Epoch {0}: on train_data, {1} % are correct".format(i + 1, train_correctedness)
             print "    on test_data: {0} % are correct".format(test_correctedness)
+            if self.max_accuracy < test_correctedness:
+                self.max_accuracy = test_correctedness
+            print "Current best test accuracy", self.max_accuracy
 
     def get_derivative(self, x, y):
         predicted_y_lsm = self.forward(x, stable_version=True)
