@@ -1,12 +1,12 @@
 # Deep Learning Library
 
 ## Overview
-This deep learning library is built from scratch (only numpy is used in the training processs), and it currently contains two kinds of tools that are usually used in the field of machine learning, specifically fully-connected feedforward neural network and long short-term memory. The object-oriented implementation is designed in a way that it makes use of the parallel computing power of GPUs. Special configurations are needed for it, though.
+This is a neural net library consists of four parts: a fully-connected feed-forward neural network built from scratch with CUDA support, its optimized version re-implemented with Theano, a modified fully-connected neural net with special pooling layer for better performance (implemented with Theano), and a long short-term memory built from scratch. Special configurations for CUDA and Theano are needed if running in GPU mode.
 
 ## GPU mode prerequisite
-This library utilizes codes for CUDA-supported Nvidia cards. CUDA Toolkits 7.x is required. For instance, follow the steps [here](http://www.r-tutor.com/gpu-computing/cuda-installation/cuda7.5-ubuntu) if your have Ubuntu 14.04. Furthermore, PyCUDA should be installed as is used in this library for the python wrapper for cuda codes. Similarly for Ubuntu 14.04, click [here](https://wiki.tiker.net/PyCuda/Installation/Linux/Ubuntu) for installation process. 
+This library utilizes codes for CUDA-supported Nvidia cards. For built-from-scratch version, CUDA Toolkits 7.x is required. For instance, follow the steps [here](http://www.r-tutor.com/gpu-computing/cuda-installation/cuda7.5-ubuntu) if your have Ubuntu 14.04. Furthermore, PyCUDA should be installed as is used in this library for the python wrapper for cuda codes. Similarly for Ubuntu 14.04, click [here](https://wiki.tiker.net/PyCuda/Installation/Linux/Ubuntu) for installation process. For Theano-implemented version, CUDA, Theano and its prerequisite are required.
 
-## Feedforward Neural Net
+## Fully-connected Neural Net (built-from-scratch version) 
 ![what a feedforward neural net looks like](https://github.com/SeanJia/DeepLearningLibrary/blob/master/readme-images/1.png)
 #### Basic features
 * The feedforward neural network in this library is designed for classification problems, and is fully connected, supportive of mini-batch stochastic gradient descent, L2-norm regularization, and three different kinds of activation functions. The output layer use Softmax as the activation function for multi-class classification and the error used here is cross-entropy error.
@@ -42,6 +42,34 @@ Other features are listed below.
 
 #### Sample training performance
 When training on [MNIST](http://yann.lecun.com/exdb/mnist/), with zero mean and variance normalization as preprocessing of the data, this algorithm achieved a best testing accuracy as 98.6%, which is around the state-of-the-art level for fully connected neural nets.
+
+## Fully-connected Neural Net (Theano implementation version)
+#### What's the difference?
+There are no much difference with regards to the functionality of this neural net compared to the one listed before. One major difference is that the input data now is separated into two sets, image data and label data. The train_data_img should be of shape (numOfSamples, dimOfEachData), and the train_data_lbl should be of shape (numOfSamples, numOfClasses), in which each row is a one-hot vector for ground truth. Notice that for using GPU, special configuration is required for Theano. For more details you can Google and find them easily. 
+
+#### Sample training script 
+When training on MNIST, assume that train_img, test_img, train_lbl, test_lbl exist as numpy multi-dimension arrays, with shape (60000, 28, 28), (10000, 28, 28), (60000, 1), (10000, 1) respectively. Then:
+```Python
+train_img = np.reshape(train_img, (60000, 28*28)).astype(np.float32)
+test_img = np.reshape(test_img, (10000, 28*28)).astype(np.float32)
+# to create one hot vectors
+temp1 = np.zeros((60000, 10))
+for i in range(60000):
+    temp1[i, train_lbl[i, 0]] = 1.0
+train_lbl = temp1.astype(np.float32)
+temp2 = np.zeros((10000, 10))
+for i in range(10000):
+    temp2[i, test_lbl[i, 0]] = 1.0
+test_lbl = temp2.astype(np.float32)
+shape = [784, 784, 400, 10]
+momentum = 0.99
+reg = 0.00015
+learning_rate = 0.005
+bs = 500
+nn = ClassicalNeuralNet.NN(shape)
+nn.train(train_img, train_lbl, test_img, test_lbl, max_epoch=2000, mini_batch_size=bs, learning_rate=learning_rate,
+         momentum=momentum, reg=reg)
+```
 
 ## Long Short-term Memory (LSTM) 
 LSTM is a special structure of the recurrent neural network. The implementation here has the following topology. In addition, this has an extra output layer wrapped outside the output gate in order to map the Yc in the diagram into a output data with given size (which is normally used for next data in the sequence). 
