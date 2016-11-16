@@ -71,6 +71,32 @@ nn.train(train_img, train_lbl, test_img, test_lbl, max_epoch=2000, mini_batch_si
          learning_rate=learning_rate, momentum=momentum, reg=reg)
 ```
 
+## Modified Fully-connected Net (Theano implementation)
+This neural net is based on the implementation above, yet with extra special pooling layers inserted. With only adding a few thousands more weights, this structure increases the overall classification performance drastically. For MNIST, it achieves 99.02% and is better than that of any other non-convolutional neural nets. Details about the ideas will be come out soon. A sample training script is here: (assume train_img, train_lbl, test_img, test_lbl the same as the ones mentioned previously)
+```Python
+train_img = np.reshape(train_img, (60000, 28*28)).astype(np.float32)
+test_img = np.reshape(test_img, (10000, 28*28)).astype(np.float32)
+# for one hot vectors
+temp1 = np.zeros((60000, 10))
+for i in range(60000):
+    temp1[i, train_lbl[i, 0]] = 1.0
+train_lbl = temp1.astype(np.float32)
+temp2 = np.zeros((10000, 10))
+for i in range(10000):
+    temp2[i, test_lbl[i, 0]] = 1.0
+test_lbl = temp2.astype(np.float32)
+shape = [784, 784, 400, 10]
+num_modifer = 8
+momentum = 0.99
+reg = 0.0001
+learning_rate = 0.01
+extra_learning_rate = 0.01
+bs = 500  # mini_batch_size
+nn = ModifiedNeuralNet.NN(shape, num_modifer)
+nn.train(train_img, train_lbl, test_img, test_lbl, max_epoch=2000, mini_batch_size=bs, learning_rate=learning_rate,
+         momentum=momentum, reg=reg, extra_learning_rate=extra_learning_rate)
+```
+
 ## Long Short-term Memory (LSTM) 
 LSTM is a special structure of the recurrent neural network. The implementation here has the following topology. In addition, this has an extra output layer wrapped outside the output gate in order to map the Yc in the diagram into a output data with given size (which is normally used for next data in the sequence). 
 ![structure of this LSTM](https://github.com/SeanJia/DeepLearningLibrary/blob/master/readme-images/2.png)
