@@ -93,8 +93,9 @@ learning_rate = 0.01
 extra_learning_rate = 0.01
 bs = 500  # mini_batch_size
 nn = ModifiedNeuralNet.NN(shape, num_modifer)
-nn.train(train_img, train_lbl, test_img, test_lbl, max_epoch=2000, mini_batch_size=bs, learning_rate=learning_rate,
-         momentum=momentum, reg=reg, extra_learning_rate=extra_learning_rate)
+nn.train(train_img, train_lbl, test_img, test_lbl, max_epoch=2000, mini_batch_size=bs, 
+         learning_rate=learning_rate, momentum=momentum, reg=reg, 
+         extra_learning_rate=extra_learning_rate)
 ```
 
 ## Long Short-term Memory (LSTM) 
