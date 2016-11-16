@@ -67,8 +67,8 @@ reg = 0.00015
 learning_rate = 0.005
 bs = 500
 nn = ClassicalNeuralNet.NN(shape)
-nn.train(train_img, train_lbl, test_img, test_lbl, max_epoch=2000, mini_batch_size=bs, learning_rate=learning_rate,
-         momentum=momentum, reg=reg)
+nn.train(train_img, train_lbl, test_img, test_lbl, max_epoch=2000, mini_batch_size=bs, 
+         learning_rate=learning_rate, momentum=momentum, reg=reg)
 ```
 
 ## Long Short-term Memory (LSTM) 
@@ -143,4 +143,4 @@ y company. Grand as the watch was, he sometimes looked at it on the sly on accou
 ```
 
 ## About the author
-Hi, my name is Zhiwei Jia, currently an undergraduate student double majoring in Computer Science and Applied Math @ UC San Diego. Welcome to my [website](http://zhiweijia.net) for more about me and my projects.
+Hi, my name is Zhiwei Jia, a student @ UC San Diego. Welcome to my [website](http://zhiweijia.net) for more about me and my projects.
