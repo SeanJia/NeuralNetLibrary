@@ -1,7 +1,7 @@
 # Deep Learning Library
 
 ## Overview
-This is a neural net library consists of four parts: a fully-connected feed-forward neural network built from scratch with CUDA support, its optimized version re-implemented with Theano, a modified fully-connected neural net with special pooling layer for better performance (implemented with Theano), and a long short-term memory built from scratch. Special configurations for CUDA and Theano are needed if running in GPU mode.
+This is a neural net library consists of four parts: a fully-connected feed-forward neural network built from scratch with CUDA support (named **NeuralNet.py**), its optimized version re-implemented with Theano (named **ClassicalNeuralNet.py**), a modified fully-connected neural net with special pooling layer for better performance (also implemented with Theano and named **ModifiedNeuralNet.py**), and a long short-term memory built from scratch (named **LSTM.py**). Special configurations for CUDA and Theano are needed if running in GPU mode.
 
 ## GPU mode prerequisite
 This library utilizes codes for CUDA-supported Nvidia cards. For built-from-scratch version, CUDA Toolkits 7.x is required. For instance, follow the steps [here](http://www.r-tutor.com/gpu-computing/cuda-installation/cuda7.5-ubuntu) if your have Ubuntu 14.04. Furthermore, PyCUDA should be installed as is used in this library for the python wrapper for cuda codes. Similarly for Ubuntu 14.04, click [here](https://wiki.tiker.net/PyCuda/Installation/Linux/Ubuntu) for installation process. For Theano-implemented version, CUDA, Theano and its prerequisite are required.
