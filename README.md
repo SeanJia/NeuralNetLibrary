@@ -1,4 +1,4 @@
-# Deep Learning Library
+# Neural Net Library
 
 ## Overview
 This is a neural net library consists of four parts: a fully-connected feed-forward neural network built from scratch with CUDA support (named **NeuralNet.py**), its optimized version re-implemented with Theano (named **ClassicalNeuralNet.py**), a modified fully-connected neural net with special pooling layer for better performance (also implemented with Theano and named **ModifiedNeuralNet.py**), and a long short-term memory built from scratch (named **RecurrentNet.py**). Special configurations for CUDA and Theano are needed if running in GPU mode.
